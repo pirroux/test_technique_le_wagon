@@ -11,10 +11,10 @@ run_dev:
 	docker run -p 8000:8000 -e PORT=8000 casestudy:dev
 
 build_gcp:
-	docker build -t #$GCR_MULTI_REGION/casestudy:latest .
+	docker build -t $(GCR_MULTI_REGION)/$(GCP_PROJECT_ID)/$(DOCKER_IMAGE_NAME):PROD --platform linux/amd64 .
 
 push :
-	docker push #$GCR_MULTI_REGION/casestudy:latest
+	docker push $(GCR_MULTI_REGION)/$(GCP_PROJECT_ID)/$(DOCKER_IMAGE_NAME):PROD
 
 deploy:
-	gcloud run deploy casestudy --image #$GCR_MULTI_REGION/casestudy:latest --platform managed --region #$GCP_REGION --allow-unauthenticated
+	gcloud run deploy  --image $(GCR_MULTI_REGION)/$(GCP_PROJECT_ID)/$(DOCKER_IMAGE_NAME):PROD --platform managed --region $(GCP_REGION) --allow-unauthenticated
